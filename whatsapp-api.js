@@ -2,17 +2,31 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const express = require('express');
 const axios = require('axios');
+const puppeteer = require('puppeteer'); 
+
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
-// Pakai LocalAuth, simpan session di folder 'session'
 const client = new Client({
   authStrategy: new LocalAuth({
-    clientId: 'client-session', // nama folder session: ./session/whatsapp/session/client-session
-    dataPath: './session'       // lokasi penyimpanan session
-  })
+    clientId: 'client-session',
+    dataPath: './session'
+  }),
+  puppeteer: {
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ]
+  }
 });
 
 let webhookUrl = "";
