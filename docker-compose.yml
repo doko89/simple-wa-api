@@ -1,0 +1,9 @@
+services:
+  whatsapp-api:
+    build: .
+    container_name: whatsapp-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./session:/app/session  # Mount folder session ke dalam container
+    restart: unless-stopped
